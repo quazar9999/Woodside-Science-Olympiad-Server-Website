@@ -8,12 +8,24 @@ TO DO:
     Docker integration
 */
 
-const http = require ('http');
-const fs = require('fs');
 const express=require('express');
+const app=express();
+
+app.set('view engine', 'ejs');
 const port = 80;
 
-const server = http.createServer(function(req,res){
+const fs = require('fs');
+
+
+app.get('/',(req,res)=>{
+    res.render("dashboard");
+    
+})
+
+
+app.listen(port);
+
+/*const server = http.createServer(function(req,res){
     
     //Cookie parsing
 
@@ -63,4 +75,4 @@ server.listen(port,function(error){
         console.log("Token.DB created\n");
     })
     
-})
+})*/
