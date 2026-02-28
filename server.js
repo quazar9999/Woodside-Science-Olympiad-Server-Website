@@ -10,9 +10,11 @@ TO DO:
 
 const http = require ('http');
 const fs = require('fs')
-const port = 3000;
+const port = 80;
 
 const server = http.createServer(function(req,res){
+    
+    //Cookie parsing
 
     if (req.method === 'GET'){
         //If the url is blank, make it direct to the dashboard
@@ -40,8 +42,24 @@ const server = http.createServer(function(req,res){
 
 server.listen(port,function(error){
     if(error){
-        console.log("there was an error: ", error);
-    }else{
-        console.log("listening on port: ", port);
+        console.log("Port listening error: ", error);
+        return;
     }
+    console.log("Listening on port:", port);
+    
+    fs.unlink('./databases/Token.DB', error=>{
+        if(error){
+            console.log("Error occured when purging Token.DB:", error);
+            return;
+        }
+        console.log("Purged Token.DB");
+    })
+    fs.writeFile('./databases/Token.DB','',error=>{
+        if(error){
+            console.log("Error occured when creating Token.DB", error);
+            return;
+        }
+        console.log("Token.DB created\n");
+    })
+    
 })
