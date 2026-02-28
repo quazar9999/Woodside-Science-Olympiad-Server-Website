@@ -1,3 +1,15 @@
+/*
+TO DO:
+    Set up automated mailing
+    Set up user auth
+        If using cookies
+            Create .env file with SHA256 hashed passcodes
+            Array of current tokens, after time period pop out token from .env and array
+        If using JWT
+            More research required
+    Port forwarding
+*/
+
 const http = require ('http');
 const fs = require('fs')
 const port = 3000;
@@ -24,9 +36,7 @@ const server = http.createServer(function(req,res){
                 res.end();
             })
         }
-    }
-
-    
+    } 
     
 })
 
