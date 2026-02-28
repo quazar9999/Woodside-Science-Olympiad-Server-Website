@@ -3,20 +3,14 @@ const fs = require('fs')
 const port = 3000;
 
 const server = http.createServer(function(req,res){
-    method = req.method;
 
-    if (method === 'GET'){
-        //If the url is blank, redirect to the dashboard
-        if(req.url='/.well-known/appspecific/com.chrome.devtools.json'){
-            fs.readFile("./site/dashboard.html",function(error,data){
-                if(error){
-                    res.writeHead(404);
-                    res.write("Error: File not found");
-                }else{
-                    res.write(data);
-                }
-                res.end();
-            })
+    if (req.method === 'GET'){
+        //If the url is blank, make it direct to the dashboard
+        if(req.url == '/'){
+            res.writeHead(302,{
+                'Location': './site/dashboard.html'
+            });
+            res.end();
         }else{
             //Otherwise, load the requested file
             fs.readFile("."+req.url, function(error,data){
@@ -24,6 +18,7 @@ const server = http.createServer(function(req,res){
                     res.writeHead(404);
                     res.write("Error: File not found");
                 }else{
+                    res.writeHead(200);
                     res.write(data);
                 } 
                 res.end();
