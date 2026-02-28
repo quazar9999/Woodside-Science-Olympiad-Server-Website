@@ -2,12 +2,10 @@
 TO DO:
     Set up automated mailing
     Set up user auth
-        If using cookies
-            Create .env file with SHA256 hashed passcodes
-            Array of current tokens, after time period pop out token from .env and array
-        If using JWT
-            More research required
+        Use token
+        https://www.youtube.com/watch?v=J6NLw0N25UM
     Port forwarding
+    Docker integration
 */
 
 const http = require ('http');
