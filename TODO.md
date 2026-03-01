@@ -1,7 +1,7 @@
 # TO DO
 
 ~~Set up user auth~~ ([theory](https://www.youtube.com/watch?v=J6NLw0N25UM))
-1. Set up user login
+1. ~~Set up user login~~
     - ~~HTML~~
     - ~~POST request, check against Login.DB~~
     - ~~SHA256 hashing + matching~~
