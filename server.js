@@ -20,7 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 const cookieParser=require('cookie-parser');
 const fs = require('fs');
 const crypto = require('crypto');
-const { prototype } = require('events');
 
 //Express settings
 app.use(cookieParser());
