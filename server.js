@@ -8,11 +8,54 @@ TO DO:
     Docker integration
 */
 
-const http = require ('http');
-const fs = require('fs')
+//Constants and variables
+const express=require('express');
+const app=express();
+app.set('view engine', 'ejs');
 const port = 80;
+const cookieParser=require('cookie-parser');
+const fs = require('fs');
+const crypto = require('crypto');
 
-const server = http.createServer(function(req,res){
+//Express settings
+app.use(cookieParser());
+
+//Generate a unique token
+function generateToken(authLevel){
+    token = crypto.randomBytes(64).toString('base64');
+    fs.appendFile('./databases/Token.DB',token+" "+authLevel+"\n", error=>{
+        if (error){
+            console.log("Token failed to register");
+        }
+    })
+    return token;
+}
+
+
+app.get('/',(req,res)=>{
+    res.cookie("token",generateToken(1));
+    res.redirect("/dashboard");
+    
+})
+
+app.get('/dashboard',(req,res)=>{
+    console.log(req.cookies);
+    res.render("dashboard");
+})
+
+//Reset Token.DB contents
+fs.writeFile('./databases/Token.DB','', error=>{
+    if(error){
+        console.log("Error when purging Token.DB:", error);
+        process.exit(1)
+    }
+    console.log("Purged Token.DB");
+})
+
+
+app.listen(port);
+
+/*const server = http.createServer(function(req,res){
     
     //Cookie parsing
 
@@ -62,4 +105,4 @@ server.listen(port,function(error){
         console.log("Token.DB created\n");
     })
     
-})
+})*/
