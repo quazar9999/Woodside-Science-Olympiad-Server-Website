@@ -10,10 +10,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 const cookieParser=require('cookie-parser');
 const fs = require('fs');
 const crypto = require('crypto');
+const hasher = require('./hasher.js');
 
 //Express settings
 app.use(cookieParser());
-app.use(checkToken);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+//app.use(checkToken);
 
 //Generate a unique token
 function generateToken(authLevel){
@@ -22,7 +25,7 @@ function generateToken(authLevel){
         if (error){
             console.log("Token failed to register");
         }
-    })
+    });
     return token;
 }
 
@@ -31,15 +34,32 @@ app.get('/',(req,res)=>{
     res.cookie("token",generateToken(1));
     res.redirect("/dashboard");
     
-})
+});
 
 app.get('/dashboard',(req,res)=>{
     res.render("dashboard");
-})
+});
 
 app.get('/login',(req,res)=>{
-    res.render("login");
-})
+    if(req.query.login=="failed"){
+        res.render("login",{loginFail: "Login Failed: Username or Password is incorrect!"});
+    }else{
+        res.render("login",{loginFail: ""});
+    }
+});
+
+app.post('/dashboard',(req,res)=>{
+    username=hasher.makeHash(req.body.username);
+    password=hasher.makeHash(req.body.password);
+    if(new RegExp(username+" "+password).test(fs.readFileSync('./databases/Login.DB','utf-8'))){
+        res.redirect("/dashboard");
+    }else{
+        res.redirect("/login?login=failed");
+    }
+});
+
+
+
 
 //Middleware
 function checkToken(req,res,next){
@@ -58,7 +78,7 @@ function checkToken(req,res,next){
 fs.writeFile('./databases/Token.DB','', error=>{
     if(error){
         console.log("Error when purging Token.DB:", error);
-        process.exit(1)
+        process.exit(1);
     }
     console.log("Purged Token.DB");
 })

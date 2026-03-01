@@ -3,14 +3,24 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../stylesheets/login.css">
     <title>SciOly Login</title>
 </head>
 
 <body>
-    <h1>
+    <h1 id="title">
         Login
     </h1>
-    <a href="./dashboard">Dashboard</a>
+    <div class="login">
+        <form action="/dashboard" method="POST">
+            <label>Username</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label>Password</label><br>
+            <input type="password" id="password" name="password"><br>
+            <input type="submit" value="Submit" >
+        </form>
+    </div><br>
+    <label id="loginFail"><%=loginFail%></label>
 </body>
 
 </html>
