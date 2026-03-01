@@ -21,7 +21,7 @@ function makeHash(input){
 }
 
 for(let i=0;i<=3;i++){
-    fs.appendFileSync('./databases/Login.DB',makeHash(UserAndPasswords[i][0])+" "+makeHash(UserAndPasswords[i][1])+"\n",error=>{
+    fs.appendFileSync('./databases/Login.DB',makeHash(UserAndPasswords[i][0])+" "+makeHash(UserAndPasswords[i][1])+" "+(i+1)+"\n",error=>{
         if (error){
             console.log("Failed to write to Login.DB at UserAndPasswords index", i, "with error:", error)
         }
