@@ -16,7 +16,7 @@ const hasher = require('./hasher.js');
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(checkToken);
+app.use(checkTokenExists);
 
 //Generate a unique token
 function generateToken(authLevel){
@@ -31,28 +31,28 @@ function generateToken(authLevel){
 
 
 app.get('/',(req,res)=>{
-    res.redirect("/dashboard");
+    res.status(200).redirect("/home");
     
 });
 
-app.get('/dashboard',(req,res)=>{
-    res.render("dashboard");
+app.get('/home',(req,res)=>{
+    res.status(200).render("home");
 });
 
 app.get('/automatedEmails',(req,res)=>{
-    res.render("automatedEmails.ejs");
+    res.status(200).render("automatedEmails.ejs");
 });
 
 app.get('/login',(req,res)=>{
     if(req.query.login=="failed"){
-        res.render("login",{loginFail: "Login failed: Username or password is incorrect!"});
+        res.status(200).render("login",{loginFail: "Login failed: Username or password is incorrect!"});
     }else{
-        res.render("login",{loginFail: ""});
+        res.status(200).render("login",{loginFail: ""});
     }
 });
 
 //Processing login credentials
-app.post('/dashboard',(req,res)=>{
+app.post('/home',(req,res)=>{
     //Hash the client's provided credentials
     username=hasher.makeHash(req.body.username);
     password=hasher.makeHash(req.body.password);
@@ -63,9 +63,9 @@ app.post('/dashboard',(req,res)=>{
     if(regex.test(logins)){
         authLevel=regex.exec(logins)[1]
         res.cookie("token", generateToken(authLevel));
-        res.redirect("/dashboard");
+        res.status(302).redirect("/home");
     }else{
-        res.redirect("/login?login=failed");
+        res.status(401).redirect("/login?login=failed");
     }
 });
 
@@ -73,14 +73,14 @@ app.post('/dashboard',(req,res)=>{
 
 
 //Middleware
-function checkToken(req,res,next){
+function checkTokenExists(req,res,next){
     //Check if cookies are in Token.DB
-    if(req.path=="/login" || (req.method=="POST" && req.path=="/dashboard")){
+    if(req.path=="/login" || (req.method=="POST" && req.path=="/home")){
         next();
     }else if(new RegExp(req.cookies.token).test(fs.readFileSync('./databases/Token.DB','utf-8'))){
         next();
     }else{
-        res.redirect("/login");
+        res.status(401).redirect("/login");
     }
 }
 

@@ -13,6 +13,11 @@
     - Compare auth level to minimum auth level of file
     - Handle conditions (i.e. 200 OK, 401 UNAUTHORISED)
     - Auth levels work from 0 --> x (0=guest, x=admin)
+1. Logout and Token expiry
+    - Add logout buttons
+    - Purge Token
+    - Check for token expiry on every check token
+    - Purge expired tokens
 1. Automated mailing
     - I'll figure this out later
 1. Other features
