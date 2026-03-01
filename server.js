@@ -42,7 +42,7 @@ app.get('/dashboard',(req,res)=>{
 
 app.get('/login',(req,res)=>{
     if(req.query.login=="failed"){
-        res.render("login",{loginFail: "Login Failed: Username or Password is incorrect!"});
+        res.render("login",{loginFail: "Login failed: Username or password is incorrect!"});
     }else{
         res.render("login",{loginFail: ""});
     }
