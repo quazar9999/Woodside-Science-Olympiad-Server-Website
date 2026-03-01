@@ -1,13 +1,3 @@
-/*
-TO DO:
-    Set up automated mailing
-    Set up user auth
-        Use token
-        https://www.youtube.com/watch?v=J6NLw0N25UM
-    Port forwarding
-    Docker integration
-*/
-
 //Constants and variables
 const express=require('express');
 const app=express();
