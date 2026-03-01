@@ -44,11 +44,12 @@ app.get('/login',(req,res)=>{
 //Middleware
 function checkToken(req,res,next){
     //Check if cookies are in Token.DB
-    if(new RegExp(req.cookies).test(fs.readFileSync('./databases/Token.DB','utf-8'))){
+    if(new RegExp(req.cookies.token).test(fs.readFileSync('./databases/Token.DB','utf-8'))){
         next();
     }else{
         console.log("Token doesn't match!");
-        req.cookies.token=generateToken(1);
+        console.log(req.cookies.token);
+        res.cookie("token", generateToken(1));
         res.redirect("/login");
     }
 }
