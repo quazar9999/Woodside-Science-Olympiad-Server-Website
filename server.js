@@ -17,6 +17,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(checkTokenExists);
+app.use(checkUserAuthLevelMatchesFile);
 
 //Generate a unique token
 function generateToken(authLevel){
@@ -69,7 +70,9 @@ app.post('/home',(req,res)=>{
     }
 });
 
-
+app.get('/forbidden',(req,res)=>{
+    res.status(200).render("forbidden");
+});
 
 
 //Middleware
